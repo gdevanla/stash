@@ -1,1 +1,0 @@
-guru@quantworld.5106:1337368415
