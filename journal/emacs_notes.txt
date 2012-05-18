@@ -1,0 +1,93 @@
+Screen Navigation
+------------------
+
+C-v scroll upwards
+M-v scroll downwards
+C-l rotate current cursor position around screen
+C-u lines <C-v|A-v>
+C-a , e begin/end of line
+
+
+C- p , n, f , b : navigate between characters and lines
+A- f, b : navigate between words sand sentences
+A- a, e : begin/end of sentence
+
+
+Provide arguments
+------------------
+
+C-u <number> <key stroke|command>
+
+Editing
+----------
+
+1. Repeat command C-x z
+2. Deleting
+	 C-d : delete character
+	 A-d : kill work
+   C/A - k : end of line/sentence
+
+3. Undo: C-x u or C-_
+
+
+Use Kill cycle buffer
+
+C-y and repeat M-y to access previous kills. Only kills are available in the kill buffer.
+
+
+Buffers:
+
+C-x C-b : list bufffers
+C-x b <buffer name> : to open buffer
+C-x s : save particular buffer
+
+C-x 4 C-f : open file in new window
+
+
+In general : 
+
+C-x = character extended commands
+M-x = name extended commands
+
+Search
+
+C-s / C-r and repeat commands to goto next matching string
+
+Scroll Other Windows
+
+C-M-v
+C-x o : swithc to other window
+
+Help
+
+C-h i ( info )
+C-h c <command> : one line help
+C-h k <command> : detail help
+c-h a "string" : appropos string search
+c-h f <function> : help regarding specific function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
