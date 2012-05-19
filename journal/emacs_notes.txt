@@ -44,7 +44,7 @@ C-x s : save particular buffer
 C-x 4 C-f : open file in new window
 
 
-In general : 
+In general :
 
 C-x = character extended commands
 M-x = name extended commands
@@ -65,6 +65,11 @@ C-h c <command> : one line help
 C-h k <command> : detail help
 c-h a "string" : appropos string search
 c-h f <function> : help regarding specific function
+
+
+Indentation :  indent several lines C-M-\
+
+Navigating backwards : C-x C-space
 
 
 
