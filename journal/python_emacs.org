@@ -1,0 +1,140 @@
+Setting up Emacs as Powerful IDE for Python
+
+* Steps
+
+
+** Step 1
+  Started with steps from this url:
+  ;; http://homepages.inf.ed.ac.uk/s0243221/emacs/
+
+** Step 2
+   I wanted the following features(for running Python in Emacs)
+   + Ability to start an ipython shell
+   + Ability to run the current python module automatically in an ipython
+     shell.
+   + Refactoring support ( ropemacs provides this)
+   + Navigate to definitions
+   + Autocomplete ( anything provides this)
+
+
+*** Setting up python-mode.el
+    This .el is needed to set up major mode in Emacs. Emacs comes with a
+    default python.el. But, after various trials trying to set up the
+    environment I needed I had to switch to python_mode.el. It is good to note
+    that the python_mode.el is maintained by the python.org community whereas
+    the python.el ( default emacs python mode) is maintained by emacs
+    community. So, once can pick based on their bias.
+
+    On standard Ubuntu, you could install this mode using apt-get
+
+    To enable python-mode and not let the default python mode of Emacs
+    interfere, I added the following commands to the .emacs file.
+
+
+    ;; disable default python.el from loading
+    (require 'python-mode)
+    (autoload 'python-mode "python-mode" "Python Mode." t)
+    (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+    (add-to-list 'interpreter-mode-alist '("python" . python-mode))
+
+
+
+*** Setting up ipython
+    + Install/Copy ipython
+    + Install or copy ipython.el into a emacs folder for it to be loaded. For
+      users, not familiar with emacs, it is usuall recommended that youn
+      created a vendor folder under ~/.emacs.d/ and copy your .el files there.
+
+      (add-to-list 'load-path "~/.emacs.d/vendor)
+
+      All other .el files in the steps following this steps can also be copied
+      to this folder.
+
+      Also add the following statement to .emacs
+      (require 'ipython)
+
+
+*** Setting up pymacs ( needed by ropemacs, rope )
+    + This .el can be installed using standard apt-get .
+    + The ropemacs related .el files can also be set up using apt-get
+    + Add the following statements to .emacs file. Some sites suggest doing a
+      lazy load of this modules, so that Emacs startup does not slow
+      down. But, with python-mode I couldn't get it work properly.
+
+      ;; ;; ===== Stuff for the pymacs extension ====
+      ;;
+      (autoload 'pymacs-apply "pymacs")
+      (autoload 'pymacs-call "pymacs")
+      (autoload 'pymacs-eval "pymacs" nil t)
+      (autoload 'pymacs-exec "pymacs" nil t)
+      (autoload 'pymacs-load "pymacs" nil t)
+
+      ;;
+      ;; ;; ===== Enable ropemacs =====
+      ;;
+      ;; ;; Uncomment these to prevent ropemacs from changing default keybindings
+      (setq ropemacs-enable-shortcuts nil)
+      (setq ropemacs-local-prefix "C-c C-p")
+      (require 'pymacs)
+      (pymacs-load "ropemacs" "rope-")
+      (setq ropemacs-enable-autoimport t)
+
+
+
+*** Setting up "anything"
+    + These set of files helps with auto-complete.
+    + The .el files needed for this to function are anything.el,
+      anything-ipython.el and anything-show-completion.el.
+      The resources provided below can be used to get the latest links to all
+      the .el files listed here.
+
+
+Other packages I found useful are 'recentf' that helps with opening recently
+open files.
+
+
+Helpful resources:
+
+My setting closely resembles the suggestions provided in this url:
+http://pedrokroger.com/2010/07/configuring-emacs-as-a-python-ide-2/
+
+For some of the issues I had to resolve I used these resources:
+
+http://edward.oconnor.cx/elisp/
+http://emacswiki.org/emacs/PythonProgrammingInEmacs
+http://lists.ipython.scipy.org/pipermail/ipython-user/2008-September/005791.html
+http://www.joegrossberg.com/archives/000182.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
