@@ -53,6 +53,15 @@ Setting up Emacs as Powerful IDE for Python
       Also add the following statement to .emacs
       (require 'ipython)
 
+      My experience with iPython inside emacs is mixed. Since, it lacks the
+      ability to reload modules that were changed other than the current
+      module that is being run, it affects the workflow.
+
+      I prefer just using the shell and running my script and exiting.  I
+      still need to figure a way to debug using this workflow.
+
+
+
 
 *** Setting up pymacs ( needed by ropemacs, rope )
     + This .el can be installed using standard apt-get .

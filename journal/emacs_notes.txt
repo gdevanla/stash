@@ -42,6 +42,7 @@ C-x b <buffer name> : to open buffer
 C-x s : save particular buffer
 
 C-x 4 C-f : open file in new window
+C-x 4
 
 
 In general :

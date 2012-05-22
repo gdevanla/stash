@@ -1,0 +1,127 @@
+#+TAGS:
+#+SEQ_TODO: TODO DONE
+
+Denisty operator implementation
+
+* Project Plan
+** Week 1 : <2012-05-25 Fri>
++ Finish implementation of density.py :
++ Have a design for Tensor Products
+** Week 2 : <2012-06-01 Fri>
++ Finish Tensor product implementation
+** Week 3/4 : <2012-06-15 Fri>
++ Density matrices with tensors
+** Week 5/6 : <2012-06-29 Fri>
++ Qapply for L and R operations
+** Week 7/8 : <2012-07-13 Fri>
++ Generic Trace op and all trace related op
+** Week 9/10 : <2012-07-23 Mon>
++ Time evolution
+** Week 11/12 :
++ Buffer
+
+* Daily Notes
+** <2012-05-21 Mon>
+*** Tasks
+- [X] Set up branch
+- [X] write tests
+- [X] review changes in operator.py
+- [ ] Do not forget DOC strings and related code
+*** Notes
+
+
+Today I created the branch and set up what I need to work on. Created skeleton
+for test cases.
+I spent time understanding how the _print_ functions work in the operator
+object since there was a minor change to the file that would be part of pull
+request.
+
+I understood the \left and \right commands to latex, resizes the characters
+following it to correct size. You can try this example
+
+\left[
+\left|\sum_{i=1}^n a_ib_i\right|
+\le
+\left(\sum_{i=1}^n a_i^2\right)^{1/2}
+\left(\sum_{i=1}^n b_i^2\right)^{1/2}
+\right]
+
+Also, while trying to understand what objects this change applies to, I
+figured this change only applies to 'operators'. Hence, I started testing
+other operators namely, CGate and XGate. Still, need to figure out why I get
+errors when I use the command
+
+qapply(x*Qubit('01')).
+
+Looks like if 1-qubit is provided then that index in required.
+
+qapply(x*Qubit('01)[0])
+
+else, if 2-qubit is given then the
+
+also, for tomorrow try to figure out how to automatically log python output.
+
+
+How printing works:
+
+The main printer class calls the object related _printmethod , for example it
+either calls _latex, _pretty, _print  based on the value of the _printmethod
+property. Now for quantum module, the QExpr takes care of implementing these
+methods and then calls _print_content_<printmethod>. The operators make use of
+these _content methods, whereas the state/gate implementations seem to
+implement their own _latex methods.
+
+
+** <2012-05-22 Tue>
+*** Tasks
+ - [ ] Prepare for Google Presentation
+ - [ ] review changes in qapply.py
+ - [ ] _eval_args
+ - [ ] doit
+ - [ ] _represent
+ - [ ] copy over entorpy and reduced_density
+ - [ ] read and understand doc string implementations
+ - [ ] fix workflow regarding running scripts in shell from emacs.
+*** Notes
++ Do we need any kind of check for probabilities. I am assuming the
+  probabilities could be anything from Symbols to Expressions, that may or may
+  not evaluate to a scalar.
+
+
+
+
+
+* Other resources used
+
+
+* Quick Commands
+** Git
++ git diff --name--only master densityop : Gets only the file names of
+  different files.
+
+** Emacs
++ C-s C-w : search for words the cursor is on
++ C-c TAB : for indent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
