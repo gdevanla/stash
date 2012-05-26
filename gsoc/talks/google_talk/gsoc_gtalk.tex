@@ -6,6 +6,8 @@
 \usepackage{graphicx}
 \usepackage{verbatim}
 
+
+
 \mode<presentation>
 
 %Commands used in this document.
@@ -49,7 +51,7 @@
 \begin{document}
 \title[Short Title]{Long Title}
 \title[GSoC 2012 Sympy]{Google Summer of Code 2012 - Sympy}
-\author[Guru Devanla] {Guru Devanla \\ Mentor: Brian Granger, Asst. Professor, Cal State}
+\author[Guru Devanla] {Guru Devanla \\ Mentor: Dr. Brian Granger, Physics Professor, Cal State}
 
 \institute[UIC]{\bf%
    {
@@ -59,28 +61,28 @@
    {\em gdevan2@cs.uic.edu} \\
 }
 
-\date[Google GSOC Meetup,May 2012]{\today}
+\date[GSOC Meetup]{\today}
 
 \begin{frame}
 \titlepage
 \end{frame}
 
 
-\AtBeginSection[]
-{
-  \begin{frame}<beamer>
-  \frametitle{Outline}
-  {\bf \tableofcontents[currentsection, currentsubsection]}
-  \end{frame}
-}
+% \AtBeginSection[]
+% {
+%   \begin{frame}<beamer>
+%   \frametitle{Outline}
+%   {\bf \tableofcontents[currentsection, currentsubsection]}
+%   \end{frame}
+% }
 
-\AtBeginSubsection[]
-{
-  \begin{frame}<beamer>
-  \frametitle{Outline}
-  \tableofcontents[currentsection, currentsubsection]
-  \end{frame}
-}
+% \AtBeginSubsection[]
+% {
+%   \begin{frame}<beamer>
+%   \frametitle{Outline}
+%   \tableofcontents[currentsection, currentsubsection]
+%   \end{frame}
+%}
 
 \frame{\tableofcontents}
 
@@ -89,24 +91,23 @@
 
 \begin{frame}
 \frametitle{What is Sympy}
-
-\textit{SymPy is a Python library for symbolic mathematics. It aims to become
-  a full-featured computer algebra system (CAS) while keeping the code as
-  simple as possible in order to be comprehensible and easily
-  extensible. SymPy is written entirely in Python and does not require any
-  external libraries. [1]}
-
-
-[1] : http://sympy.org/en/index.html
+\begin{itemize}
+\item A Python library for \emph{symbolic mathematics}
+\item Has a goal of becoming a full featured \emph{Computer Algebra System}
+\item Written entirely in Python and does not require external libraries
+\end{itemize}
+\vspace*{0.5in}
+\tiny{[1] : http://sympy.org/en/index.html}
 
 \end{frame}
 
-\subsection{Features}
+\subsection{Sympy - Features}
 \begin{frame}
-\frametitle{Features}
+\frametitle{Sympy 0.7.1 - Features}
 
 \begin{itemize}
 \item Core Capabilities
+\pause
 \item Other Modules
   \begin{itemize}
      \item Polynomials
@@ -118,9 +119,11 @@
      \item Physics
         \begin{itemize}
               \item Mechanics
-              \item Quantum : Qubits, Quantum Gates etc.  GSOC 2012 : Density Operator
+              \item Quantum : Quantum Mechanics, Qubits, Quantum Gates etc.
+              \item ( GSOC 2012 : Density Operator)
         \end{itemize}
   \end{itemize}
+\pause
 \item Printing
   \begin{itemize}
     \item \LaTeX, MathML etc
@@ -132,55 +135,137 @@
 \subsection{Examples}
 \begin{frame}
 \frametitle{Examples}
-\includegraphics[height=3in,width=3in]{ex1.ps}
+\includegraphics[height=2in,width=3in]{ex1.ps}\newline
+\tiny{source: http://sympy.org}
 \end{frame}
 
 \begin{frame}
 \frametitle{Examples}
-\includegraphics[height=3in,width=3in]{ex2.ps}
+\includegraphics[height=2in,width=3in]{ex2.ps}\newline
+\tiny{source: http://sympy.org}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Examples}
+\includegraphics[height=2in,width=3in]{ex3.ps}\newline
+\tiny{source: http://sympy.org}
 \end{frame}
 
 \begin{frame}
 \frametitle{Examples}
-\includegraphics[height=3in,width=3in]{ex3.ps}
+\includegraphics[height=2in,width=2in]{ex4.ps}\newline
+\tiny{source: http://sympy.org}
 \end{frame}
 
 \begin{frame}
 \frametitle{Examples}
-\includegraphics[height=3in,width=3in]{ex4.ps}
+\includegraphics[height=2in,width=2in]{ex5.ps}\newline
+\tiny{source: http://sympy.org}
 \end{frame}
-
-\begin{frame}
-\frametitle{Examples}
-\includegraphics[height=3in,width=3in]{ex5.ps}
-\end{frame}
-
 
 
 \section{Sympy - Quantum Module}
 \subsection { States as Vectors }
 \begin{frame}
-\frametitle{What is Sympy}
+\frametitle{Sympy - Quantum Module}
+
+Informally , in quantum mechanics, \emph{states} in a closed system are
+represented as linear combination of a set of basis vectors,
+\newline
+\[State: \left[
+\frac{1}{\sqrt{2}} \left( \begin{matrix} 1 \\ 0 \end{matrix} \right)
++ \frac{1}{\sqrt{2}}
+\left( \begin{matrix}  0 \\ 1 \end{matrix} \right)
+\right]\]
+
+where \newline
+
+${(\frac{1}{\sqrt{2}})}^2 = 0.5$ gives the probability of observing either state.
+
+
 \end{frame}
 
-\subsection { Mixed States }
+
 \begin{frame}
-\frametitle{What is Sympy}
+\frametitle{Mixed States}
+
+Say we have 2 states, given by
+
+\[
+State_1 : \frac{1}{\sqrt{2}} \left( \begin{smallmatrix} 1 \\ 0 \end{smallmatrix} \right)
++ \frac{1}{\sqrt{2}}
+\left( \begin{smallmatrix}  0 \\ 1 \end{smallmatrix} \right)
+\]
+
+with $Pr(State_1)=\frac{1}{3}$
+
+\[ State_2:
+\frac{1}{\sqrt{2}} \left( \begin{smallmatrix} 1 \\ 0 \end{smallmatrix} \right)
+- \frac{1}{\sqrt{2}}
+\left( \begin{smallmatrix}  0 \\ 1 \end{smallmatrix} \right)
+\]
+with $\Pr(State_2) = \frac{2}{3}$
+\newline\newline\newline
+\pause
+\small{Represented as} \[\left( (state_1, p_1), (state_2,p_2)....(state_n,p_n) \right)\]
+
+This representation becomes quite cumbersome.
+
 \end{frame}
 
-\subsection { Density Matrices(also called Density Operators}
+\subsection {Density Matrices(Operators)}
 \begin{frame}
-\frametitle{What is Sympy}
+\frametitle{Density Matrices}
+
+
+Density Matrix($\rho$) given by
+\newline
+\texttt{sum of outer products of each of these states}
+
+\[\rho =  \sum_{i=1}^{n} p_i(state_i) .  (p_i(state_i))^* \]
+
+\pause
+This gives us a nice matrix. \newline
+\begin{itemize}
+\item Helps in representation
+\item Used to evaluate various properties about systems in mixed states
+\end{itemize}
+
+
 \end{frame}
 
-\subsection {  Goals }
+\subsection {  Goals - Density Operator Implementation }
 \begin{frame}
-\frametitle{What is Sympy}
+\frametitle{GSoC 2012 - Project Goals }
+
+\begin{itemize}
+\item Methods to declare density matrices
+\item Extend operators for time dependent states
+\item Way to use these objects in equations representing quantum circuits
+\item Integrate with current eval() functions to work with other quantum
+  expressions
+\end{itemize}
+
 \end{frame}
 
 \subsection {  Tools / Workflow }
 \begin{frame}
-\frametitle{What is Sympy}
+\frametitle{Tools/Workflow}
+\begin{itemize}
+\item Python 2.7
+\item IPython as interactive python shell
+\item Emacs powered with python-mode, pymacs and pyrope
+\item git and github
+\end{itemize}
+
+\end{frame}
+
+
+\subsection{ More resources }
+\begin{frame}
+\frametitle{live.sympy.org}
+\includegraphics[height=3in,width=4in]{ex6.ps}
 \end{frame}
 
 

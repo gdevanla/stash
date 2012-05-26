@@ -26,7 +26,7 @@ Denisty operator implementation
 - [X] Set up branch
 - [X] write tests
 - [X] review changes in operator.py
-- [ ] Do not forget DOC strings and related code
+
 *** Notes
 
 
@@ -75,13 +75,7 @@ implement their own _latex methods.
 ** <2012-05-22 Tue>
 *** Tasks
  - [ ] Prepare for Google Presentation
- - [ ] review changes in qapply.py
- - [ ] _eval_args
- - [ ] doit
- - [ ] _represent
- - [ ] copy over entorpy and reduced_density
- - [ ] read and understand doc string implementations
- - [ ] fix workflow regarding running scripts in shell from emacs.
+
 *** Notes
 + Do we need any kind of check for probabilities. I am assuming the
   probabilities could be anything from Symbols to Expressions, that may or may
@@ -91,7 +85,19 @@ implement their own _latex methods.
 
 
 
-* Other resources used
+** <2012-05-23 Wed>
+- [ ]  Gave Google presentation
+- [X]  completed _eval_args and tests
+
+
+** <2012-05-24 Thu>
+ - [ ] review changes in qapply.py
+ - [ ] doit
+ - [ ] _represent
+ - [ ] copy over entorpy and reduced_density
+ - [ ] read and understand doc string implementations
+ - [ ] fix workflow regarding running scripts in shell from emacs.
+ - [ ] create an init script that will load commonly used library into ipython
 
 
 * Quick Commands
