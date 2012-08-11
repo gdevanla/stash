@@ -100,10 +100,580 @@ implement their own _latex methods.
  - [ ] create an init script that will load commonly used library into ipython
 
 
+** <2012-05-29 Tue>
+
+
+
+
+** <2012-05-30 Tue>
+
+- [X] Respond to pull request comments.
+- [X] Review previous pull request 1312
+- [X] Notebook try and understand
+- [X] Provide the notebook examples for density.
+- [ ] Review and design tensor product implementation
+- [ ] Implement tensor product
+
+Notes:
+
+Easy install instructions:
+to uninstall use -m
+http://peak.telecommunity.com/DevCenter/EasyInstall#uninstalling-packages
+
+install distribute
+
+make sure the latest version are installed
+
+Get both from git and install these:
+
+install libzmq
+install pyzmq ( 2.1.4 needed )
+install cython too!
+
+Today : I spent time on
+1. setting up notebook
+2. responding to all changes on pr 1312 ( includes added ipynb, docstrings and
+   minor changes)
+
+** <2012-05-31 Wed>
+
+- [X] Review qubit design and decide what to implement
+- [ ] Three methods : reduced_density, entropy_of_entanglement
+- [ ] Send mail regarding qubit implementation
+- [ ] Review test_density to make sure qubit related rho's do not need any
+special tests. Right, now only eval_args has tests for qubits.
+- [ ] Fix bug in qapply() as sugggested in Pull 1312
+
+Notes:
+
+Completed test cases for entropy. Will have to leave a note with team to see
+where we have to put the entropy methods.
+Send an email to mentors, regarding logic to be used to
+reduced_density_operator.
+
+** <2012-06-04 Mon>
+- [ ] Status of PR 1312
+- [ ] Push PR with entropy
+- [ ] Integrate qubit and qubit related partial density function
+- [ ] Work on TensorProducts
+- [ ] Reduced density operator of tensor products
+
+Notes:
+
+Questions for todays discussion:
+
+1. Name of class for Density Qubit .  For now this class will have the partial
+   trace function related to qubits.
+
+2. Should the user have to explicitly creating a densityqubit object. What
+   happens if the state is some expr.
+
+   For example :  Density( [x,0.5], [Qubit('01'),.05]). In this example, what
+   kind of object should be created.
+
+3. partial trace function in TensorProducts. When we have non-qubit state,
+   then we have one of the 2 scenarios
+
+   One of the mixed states could be:
+  a. |i><k|
+  b. |ijk><xyz| ,  then we could still split this into
+     |i><x| \otimes |j><y| \otimes |k><z| and then we have
+
+     Tr(|i><x|) \otimes Tr(|j><y|) \otimes Tr(|k><z|) : of course we may not
+     trace one of these indices.
+
+  So, either way if it is not Qubits, that is in a state, we end up with (a)
+  or (b).
+
+  Now, for each |i><k| we could do Tr(|i><k|)) = Tr(|k><i|).
+
+     Here i and k, could be any expr of valid StateBase and and then the inner
+     product takes care of this. But, understanding is this will also handle i and
+     k if different bases.
+
+
+Misc:
+  1.  States of Pull Request 1312? Is there something else I need to do before
+      it is merged.
+  2.  Should I submit a PR request for minor changes : entropy functions for
+      review. I was waiting for PR 1312 to get merged, before I submit this
+      request.
+
+** <2012-06-05 Tue>
+
+- [X] Impelemented new Trace class with  basic features
+
+
+** <2012-06-06 Wed>
+
+- [ ] Complete testing and make __new__ ready for review.
+- [ ] Complete sample trace by implementing trace for Outerproduct.
+- [ ] List and review all other operators that would need trace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+** <2012-06-18 Mon>
+
+- [X] Finish print methods, tests
+- [X] Finish pending examples for Tr
+- [ ] Qubit integration
+
+
+
+** <2012-06-20 Wed>
+
+
+Changing this code to a list comprehension code:
+
+    #get first substr that starts with min_item
+    idx = indices[0]
+    s = l1[idx:indices[1]]
+    #get the min substr which starts with min_item
+    print idx, s
+    for i in xrange(1,len(indices)-1):
+        next_s = l1[indices[i]:indices[i+1]]
+        if min(s,next_s) == next_s:
+            idx = i
+            s = next_s
+            print idx, s
+
+** <2012-06-25 Mon>
+
+- [ ] Tensor Product design
+- [ ] Trace - implement permute method, equality operation
+- [ ] Add permute examples to Notebook, after trace.ipynb is merged from
+  printing branch
+
+
+Notes on Tensor Product/ Traces
+=================================
+
+Sean/Brian,
+
+Here are some notes on my thoughts on Tr operations on tensor products. The
+first thing to note is that somehow TensorProduct * Dagger(TensorProduct) does
+not give me an expr of type 'OuterProduct'. I have listed the example below:
+
+a, b, c, d = symbols('a b c d', commutative=False)
+tp_1 = TensorProduct(a, b)
+tp_2 = TensorProduct(c, d)
+
+print type(tp_1 * Dagger(tp_2))  # prints <class 'sympy.core.mul.Mul'>
+# and not a OuterProduct. For example if we do
+
+print type(Qubit('10')*Dagger(Qubit('10'))) # print <class'sympy.physics.quantum.operator.OuterProduct'>
+
+
+So, let us assume that we fix this to return a 'OuterProduct' type, my
+implementation would look something like the following code snippet:
+
+[ TensorProduct._eval_trace() will get called from OuterProduct._eval_trace()]
+
+def _eval_trace( <tp_2|  ):
+
+       #  say self.args = a , b and  tp_2.args = c, d
+
+       return Tr((a*c)) * Tr((b*d))
+       # (a*c) , (b*d)  are of type OuterProduct
+
+       # now for partial trace, say trace 2nd system
+       return (a*c) * Tr * (b*d)
+
+
+So, I was going to look into how I could fix this issue of TensorProduct *
+Dagger(TensorProduct) not being a OuterProduct. Can one of you let me know if
+doing this would make sense or if there is an easy alternative
+
+As we iron out these details, I will continue with trace operations on qubits
+and then I can start coding this up.
+
+
+
+
+
+Notes on various states/operators
+
+Cartesian
+==========
+
+EigenKets
+
+XKet : momentum
+PxKet : position
+
+L = r * p  == orbital angular momentum
+
+L = angular momentum/operatpr
+r = position vector/operatpr ( vectors becomes operators from classical to quantum)
+p = linear momentum/operator
+
+
+Px = PxOp = (p) = momentum operator
+
+X, Y, Z ( XOp, YOp, ZOp ) = (r) =  position operators
+
+
+Spin
+=====
+
+
+
+** <2012-07-13 Fri>
+
+- [X] More examples using bras and kets
+- [ ] Trace module relocation
+- [X] Wrap indices in a tuple
+- [-] Permute method which returns a new instance
+      - [X] currently under discussion
+      - [ ] implement
+- [X] _generate_outer_product should be called _generate_tensor_product
+- [X] Add docs to why we need _generate_outer_product
+- [X] This can come in a later PR, but I would like to see some tests with
+    Traces of density matrices of tensor products of spin states to make
+    sure the logic works when the representations are matrices.
+
+
+** <2012-07-24 Tue>
+
+- [ ] Initiate email for Tr location and close loop
+- [ ] Send mail to Brian/Sean summarizing ideas about quantum circuit
+      - [ ] First, we have a sketch of Shor's algorithm here:
+            https://github.com/addisonc/sympy/blob/addison-main/sympy/physics/quantum/shor.py
+            Finish up and add tests fo
+      - [ ] write code that takes a symbolic quantum circuit in sympy and then auto generates Cython code for simulating that circuit super fast.
+      - [ ] explore quantum circuit decomposition. Basically, investigate algorithms for taking an arbitrary Unitary matrix acting on n qubits and decompose it into a sequence of primitive gates.
+      - [ ] try to put the new density matrix stuff to use. For example, you could create different types of "error" gates and the numerically investigate how different circuits perform as the number of errors increases.
+      - [ ] Fifth, you could implement the fidelity and trace distances for density matrices:
+             http://en.wikipedia.org/wiki/Fidelity_of_quantum_states
+- [ ] Next steps before completion of project
+      - [ ] Simple time-dep state tests.
+      - [ ] Shor's algorithm
+      - [ ] Fidelity and trace distances, should be quite simple
+      - [ ] Work on paper
+- [ ] Address current PRs
+      - [ ] Trace permute
+      - [ ] Trace qubit and qapply
+
+
+** <2012-08-01 Wed>
+
+
+I went through the entire thread again, I feel we should just move the Tr
+module into matrices/expressions, but let it inherit from MatExpr instead of
+from Expr.
+
+Here is the summary of some points made and why I feel this way:
+
+1. Tr == Partial trace on all indices.  This just says the arguments of Tr
+   behave differently during evaluation based on the implementation of
+   _eval_args(). Even if we had 2 different classes(Tr, PartialTr), the
+   implementations would be the same since we end up calling
+   _eval_trace(). Every other implementation details of these 2 classes would
+   be the same.
+
+2. The current implementation though is used heavily by quantum module, still
+   does not *depend* on quantum module.  This just states that  Tr
+   is not *required* to reside in the physics/quantum folder.
+
+3. Matthew suggested we could have 2 different classes and let Partial Trace
+   yield a Tr object if indices == all_indices.  But, looking from user API
+   perspective this just complicates things. I was looking at the use cases
+   when user would be creating these objects, and did not think we should
+   force user to pick between Tr and PartialTr. It should just be Tr(args,
+   [tuple of indices]).
+
+   The one point Matthew made was regarding during evaluation Tr yields an
+   Expr/Scalar whereas partial trace yields another matrix. But, is this point
+   alone a good reason to split these classes, given all other implementation
+   details are the same.
+
+
+Alternatively, if we decide to split these classes and place both of them in
+matrices/expressions. Then, I see that  the PartialTr class does not have
+any specific functionality except to yield a Tr object in some cases. Apart
+from that, all other implementation details on Trace class applies to PartialTr.
+
+
+So, in summary I would move the Tr class to matrices/expressions and let in
+inherit from MatExpr. The user could always use Tr() class to run either trace or
+partial trace operation. During _eval_trace(), if the operation is a partial
+trace operation, then an appropriate object ( matrix ) is returned.
+
+Also, if indices = all_indices, we could set the is_Matrix = False.
+
+Or, if MatExpr does not apply to general case of Tr, then we should simple let
+Tr inherit from Expr. I am not sure if this inheritance heirarchy should stop
+Tr from being in the matrices/expressions folder.
+
+
+Quantum Fidelity
+
+class Fidelity:
+
+accept ( ket1, ket2 ) , (density, ket ), (ket, density) or (density, density)
+
+doit()
+     if args == ( ket1, ket2 ):
+         return InnerProduct(ket1 , ket2)
+     elif args == (ket1, density )
+         return InnerProduct(ket1, density*ket1)
+     elif args == ( density1, density2 )
+         return Tr( sqrt ( sqrt(density1) * density2 * sqrt(density1) )
+     ).doit()
+
+
+Here sqrt(density1) is the positive unique square root of density1.  Do we
+have current impelmentations in sympy which we could use. I looked around but
+could not find anything direct.
+
+
+Some notes for reference:
+
+Density matrices, Den are positive semi-definite and therefore by theorem, also
+have a unique matrix B such that B**2 = Den.
+
+Density matrices are self-adjoint ( Hermitian) , and therefore Normal
+matrices. By spectral theorem, every normal operator can be decomposted into
+eigenvalues and eigenvectors.
+
+
+Every Hermitian matrix is a normal matrix, and the finite-dimensional spectral
+theorem applies. It says that any Hermitian matrix can be diagonalized by a
+unitary matrix, and that the resulting diagonal matrix has only real
+entries. This implies that all eigenvalues of a Hermitian matrix A are real,
+and that A has n linearly independent eigenvectors. Moreover, it is possible
+to find an orthonormal basis of Cn consisting of n eigenvectors of A.
+
+
+
+Some commands that were run on QuTip
+
+from qutip import *
+Qobj()
+basis(5,1,2,3)
+basis(5,1) + basis(5,2)
+basis(5,0) + basis(5,1) + basis(5,2) + basis(5,3) + basis(5,4_
+basis(5,0) + basis(5,1) + basis(5,2) + basis(5,3) + basis(5,4)
+sigmaz(
+)
+p = basis(5,0) + basis(5,1) + basis(5,2) + basis(5,3) + basis(5,4)
+sigmax(p)
+p.sigmax()
+sx = sigmax()
+sx
+sx*p
+sx*p[0]
+p.tr()
+p.ptrace(1)
+sigmax(5)
+x=sigmax()
+x
+x**3
+vec1 = basis(2,0)
+vec1
+vec1 = (basis(2,0)+basis(2,1))
+vec1
+vec1 = (basis(2,0)+basis(2,1)).unit()
+vec1
+vec2 = vec1
+fidelity(vec1,vec2)
+vec1*vec1.dag()
+vec2*vec2.dag()
+fidelity(vec1,vec2)
+d2=vec2*vec2.dag()
+d1=vec1*vec1.dag()
+fidelity(d1,d2)
+vec1 = (basis(2,1/sqrt(2))+basis(2,1/sqrt(2))).unit()
+vec1 = (basis(2,1))+basis(2,1))).unit()
+vec1 = (basis(2,1))+basis(2,1)).unit()
+vec1 = (basis(2,0)+basis(2,1)).unit()
+vec1
+vec1 = ((1/sqrt(2))basis(2,0)+ (1/sqrt(2))basis(2,1)).unit()
+vec1 = ((1/sqrt(2))*basis(2,0)+ (1/sqrt(2))*basis(2,1)).unit()
+vec1
+vec1.dag()*vec2
+vec2
+vec1
+vec2 = basis(2,1)
+vec1.dag()*vec2
+(vec1.dag()*vec2)**2
+
+
+#test fidelity with density
+from qutip import *
+vec1 = ((1/sqrt(2))basis(2,0)+ (1/sqrt(2))basis(2,1)).unit()
+vec1 = ((1/sqrt(2))*basis(2,0)+ (1/sqrt(2))*basis(2,1)).unit()
+vec1
+vec2 = basis(2,1)
+vec2
+fidelity(vec1, vec2)
+vec1_dm =  vec1 * vec1.dag()
+vec2_dm =  vec2 * vec2.dag()
+fidelity(vec1_dm, vec2_dm)
+fidelity(vec2_dm, vec1_dm)
+fidelity??
+fidelity??
+vec2_dm.sqrtm()
+vec3
+vec2
+vec2.sqrtm()
+vec2_dm.sqrtm()
+vec1_dm.sqrtm()
+vec1_dm
+vec1_dm.sqrtm()
+real(vec1_dm.sqrtm())
+vec1_dm.sqrtm()??
+vec1_dm.sqrtm??
+ket2dm(vec1)
+vec1
+vec2
+vec2 = ((sqrt(3)/2)*basis(2,0)+ (1/2)*basis(2,1)).unit()
+vec2
+vec2 = ((sqrt(3)/2)*basis(2,0)+ (1/2)*basis(2,1)).unit()
+vec2
+vec2 = ((sqrt(3)/2)*basis(2,0)+ (1/2)*basis(2,1))
+vec2
+vec1
+d1 = 0.25*ket2dm(vec1) + 0.75*ket2dm(vec2)
+d1
+d2 = 0.75*ket2dm(vec1) + 0.25*ket2dm(vec2)
+fidelity(d1,d2)
+Float('.1234', 2)
+float('.1234', 2)
+from sympy import Floatat
+from sympy import Float
+float('.1234', 2)
+Float('.1234', 2)
+f = Float('.1234')
+f.round(2)
+f.round(2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 * Quick Commands
 ** Git
 + git diff --name--only master densityop : Gets only the file names of
   different files.
++ git <branch> <file_name> : to co one file from another branch
+
+
 
 ** Emacs
 + C-s C-w : search for words the cursor is on

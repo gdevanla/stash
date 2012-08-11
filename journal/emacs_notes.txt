@@ -28,11 +28,12 @@ Editing
    C/A - k : end of line/sentence
 
 3. Undo: C-x u or C-_
-
+ 
 
 Use Kill cycle buffer
 
-C-y and repeat M-y to access previous kills. Only kills are available in the kill buffer.
+C-y and repeat M-y to access previous kills. Only kills are available in the
+kill buffer.
 
 
 Buffers:
@@ -53,6 +54,12 @@ M-x = name extended commands
 Search
 
 C-s / C-r and repeat commands to goto next matching string
+Esc C-s / Esc C-r = for regexp
+M-x list-matching-lines
+M-x query-replace-regexp
+
+The answer is that you need to insert a ^J character, which Emacs uses to represent newlines in functions and commands. At the point in the regexp or replacement where you need to insert a newline, hit Ctrl-q followed by Ctrl-j. Ctrl-q is Emacs's "quote" command: rather than executing the following keystroke, Emacs will insert the key into the current buffer or the minibuffer.
+
 
 Scroll Other Windows
 
@@ -66,13 +73,28 @@ C-h c <command> : one line help
 C-h k <command> : detail help
 c-h a "string" : appropos string search
 c-h f <function> : help regarding specific function
-
+C-h b : to get key bindings
+C-h describe-bindings
 
 Indentation :  indent several lines C-M-\
 
 Navigating backwards : C-x C-space
 
+Keyboard macro
 
+F3 = record
+f4 = replay me testing this.
+
+or
+
+C-x <activity> C-x
+and
+C-x e(call-last-kbd-macro)
+
+
+Transpose words
+
+Alt-t
 
 
 

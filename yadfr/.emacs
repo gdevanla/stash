@@ -10,6 +10,7 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
  '(font-latex-fontify-sectioning (quote color))
  '(tab-width 2))
 (custom-set-faces
@@ -188,7 +189,7 @@
 
 ;; I don't use C-u's normal use, but I do use this macro.
 
-(global-set-key "\C-u" 'backward-kill-line)
+;;(GLOBAL-SET-KEY "\C-U" 'BACKWARD-KILL-LINE)
 
 ;; You can still get the original meaning of C-u (universal-argument) with C-c
 ;; u.  Note, I was going to do C-S-u, but apparently terminals can't
@@ -318,8 +319,6 @@
                                   '(length initial-pattern)))
 
 
-
-
 ;;python_mode.el settings
 ;;http://pedrokroger.com/2010/07/configuring-emacs-as-a-python-ide-2/
 
@@ -329,6 +328,24 @@
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
-(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+(global-set-key "\C-x\\C-r" 'recentf-open-files)
 
+;; setting for popping mark rings autimatically
+(setq set-mark-command-repeat-pop t)
 
+;; https://sites.google.com/site/steveyegge2/effective-emacs
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-c\C-m" 'execute-extended-command)
+
+;; note \C-w may have side effects outside emacs
+(global-set-key "\C-w" 'backward-kill-word)
+(global-set-key "\C-x\C-k" 'kill-region)
+(global-set-key "\C-c\C-k" 'kill-region)
+
+;; disable menu bars
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+
+;; shortcut for query-replace
+ (defalias 'qrr 'query-replace-regexp)
