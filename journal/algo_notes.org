@@ -1,0 +1,97 @@
+** Flow algorithm
+
+Say we define a graph G=(V,E) as flow network. c(u,v) is a real-value
+non-negative integer called capacity. Typically, every edge has a capacity
+function defined. For non-edges the capacity is zero.
+
+The we have a function f:VxV ->
+R called the flow function, which satisfies the following properties:
+
+1. f(u,v) <= c(u,v).
+2, f(u,v) = -f(v,u). This is important, since this intuitively states that
+flow can be defined only in one direction. That is, it does not make sense to
+have 2 flows between 2 vertices.
+3. flow conservation property, that is for all u in V, we have sum of f(u,v)
+   =0. This can also be stated conversely, that is for all u in V sum of
+   f(v,u) = 0.
+
+So, we have three steps to calculate maximum flow in graphs.
+
+1. Set up initial flow, f =0
+2. calculate C_f = c(u,v) - f(u,v). and we have a residual graph where an edge
+   exits if C_f > 0.
+
+   Here there are 2 possibilities. if f(u,v) > c(u,v), this just means we can
+   increase the flow along this edge.
+
+   Also, note that f(v,u) gives a negative value, which makes C_f(v,u) greater
+   than capacity c(v,u).
+
+   So, either we end up having 2 edges if there was an edge in the initial
+   graph, or just the reversed edge [Need to verify this fully]
+
+3. Do a BFS on residual network assuming we have edges for all pairs where
+   c_f(u,v)>0. Then, find the min c_f in this path. This gives the new f'
+   value that we can add to the flow. Add this to main array f.
+
+   Continue with step 2.
+
+4. The algo ends when there is no more augmenting path.
+
+
+*aa* Matching
+
+In a graph, with edge set M subset of V, and v is said to be matched, if it
+has atmost one edge in M. Maximum matching maximized M.
+
+For maximum matching, add S and T, and add unit flows to all edges. The
+maximum flow network ( the final f array where for all i, f[i]> 0 ) will be
+the edges in M.
+
+
+** A way to solve the spotify puzzle
+
+For the spotify puzzle, this puzzle is a version of minimum vertex cover problem on
+bipartite graph which is equivalent to the maximum flow problem.
+
+Once, you have the maximum flow network, start from all unmatched vertices in
+L, and add them to a set T. Then, from those nodes add all nodes in R that can be
+reached from those nodes. Now, these nodes added in second step are actually
+matched and would lead us into nodes in L.
+
+Therefore, we finally have in T, unmatched nodes in L, nodes reachable from L
+in R, and nodes reachable from those nodes in L.
+
+Now, just pick the nodes L/T and also nodes T intersection R. That way, all
+the 3 scenarios below are covered.
+
+
+a <-> b
+c <-> d
+e <-> f
+g <-> f
+
+Here, say edges (a,b), ( c,d) , (e,f) were picked up, then are vertex cover
+would be
+
+a, c and f . We can f since T would be {g,f,e}.
+
+
+** Trie, how and when to use them
+
+They constructs prefixes. Good for spell-check, hypenation. You cannot do a
+substr search on it. But, they can very well be used as hashtables, and
+sometimes they are more efficient that hashtables.
+
+Even directed acyclic graphs can be used to reduce the amount of space needed
+by tries.
+
+** Radix Trie, an variation
+
+Saves memory, by not expanding to child nodes unless needed.
+
+** Suffix trees, generalized suffix trees
+
+Build suffixes, and hence can used to solve substr problems. Little complex to
+build them efficients. Even suffix arrays can be used for certain purposes.
+Can also be used to longest common subsequence.

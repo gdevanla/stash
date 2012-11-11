@@ -1,0 +1,43 @@
+
+* A simple explanation to understand the steps we use to prove if a problem is NP-Complete
+
+Most of the college level texts give a boiler plate explanation on the steps
+we need to prove if a problem is NP-Complete. There are 2 steps to this
+proof. Let us call the given problem, p.
+
+(a) prove the problem is in NP.
+(b) prove any problem in NP can be reduced to the given problem, p.
+
+So, how and why do these 2 steps prove a problem to be NP-Complete.
+
+To prove the first step, we have to prove that any solution S, given to the
+problem p, can be verified to be the correct solution in polynomial time. One
+of the properties an problem must satisfy to be part of set NP, is to be
+verifiable in polynomial time. This steps verifies that requirement.
+
+The second requirement for a problem to be in NP-Complete set is that prove
+there is no polynomial time solution to this kind of problem. Now, how do we
+go about proving that. We can take some problem that was already proved to be
+hard(no polynomial time solution), and reduce that problem to our problem p.
+
+OK, fair enough. But, how exactly does taking one problem and reducing it
+satisfy the second step in the proof. That is because, we pick a problem, say
+q, which is already shown to be NP-Complete. That is we have already shown
+that any problem in NP can be reduced to problem q. Now, by showing we can
+reduce q to problem p, we can say that any problem in NP can be reduced to p (
+by first reducing it to q and then reducing q to p)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Setting up Emacs as Powerful IDE for Python</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2012-05-18 22:12:51 CDT"/>
+<meta name="author" content="guru"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Setting up Emacs as Powerful IDE for Python</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Steps </a>
+<ul>
+<li><a href="#sec-1.1">1.1 Step 1 </a></li>
+<li><a href="#sec-1.2">1.2 Step 2 </a>
+<ul>
+<li><a href="#sec-1.2.1">1.2.1 Setting up python-mode.el </a></li>
+<li><a href="#sec-1.2.2">1.2.2 Setting up ipython </a></li>
+<li><a href="#sec-1.2.3">1.2.3 Setting up pymacs ( needed by ropemacs, rope ) </a></li>
+<li><a href="#sec-1.2.4">1.2.4 Setting up "anything" </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Steps </h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Step 1 </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<p>Started with steps from this url:
+;; <a href="http://homepages.inf.ed.ac.uk/s0243221/emacs/">http://homepages.inf.ed.ac.uk/s0243221/emacs/</a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="section-number-3">1.2</span> Step 2 </h3>
+<div class="outline-text-3" id="text-1.2">
+
+<p>I wanted the following features(for running Python in Emacs)
+</p><ul>
+<li>
+Ability to start an ipython shell
+</li>
+<li>
+Ability to run the current python module automatically in an ipython
+shell.
+</li>
+<li>
+Refactoring support ( ropemacs provides this)
+</li>
+<li>
+Navigate to definitions
+</li>
+<li>
+Autocomplete ( anything provides this)
+
+
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-1.2.1" class="outline-4">
+<h4 id="sec-1.2.1"><span class="section-number-4">1.2.1</span> Setting up python-mode.el </h4>
+<div class="outline-text-4" id="text-1.2.1">
+
+<p>This .el is needed to set up major mode in Emacs. Emacs comes with a
+default python.el. But, after various trials trying to set up the
+environment I needed I had to switch to python<sub>mode</sub>.el. It is good to note
+that the python<sub>mode</sub>.el is maintained by the python.org community whereas
+the python.el ( default emacs python mode) is maintained by emacs
+community. So, once can pick based on their bias.
+</p>
+<p>
+On standard Ubuntu, you could install this mode using apt-get
+</p>
+<p>
+To enable python-mode and not let the default python mode of Emacs
+interfere, I added the following commands to the .emacs file.
+</p>
+
+<p>
+;; disable default python.el from loading
+(require 'python-mode)
+(autoload 'python-mode "python-mode" "Python Mode." t)
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+</p>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.2.2" class="outline-4">
+<h4 id="sec-1.2.2"><span class="section-number-4">1.2.2</span> Setting up ipython </h4>
+<div class="outline-text-4" id="text-1.2.2">
+
+<ul>
+<li>
+Install/Copy ipython
+</li>
+<li>
+Install or copy ipython.el into a emacs folder for it to be loaded. For
+users, not familiar with emacs, it is usuall recommended that youn
+created a vendor folder under ~/.emacs.d/ and copy your .el files there.
+
+<p>
+(add-to-list 'load-path "~/.emacs.d/vendor)
+</p>
+<p>
+All other .el files in the steps following this steps can also be copied
+to this folder.
+</p>
+<p>
+Also add the following statement to .emacs
+(require 'ipython)
+</p>
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.2.3" class="outline-4">
+<h4 id="sec-1.2.3"><span class="section-number-4">1.2.3</span> Setting up pymacs ( needed by ropemacs, rope ) </h4>
+<div class="outline-text-4" id="text-1.2.3">
+
+<ul>
+<li>
+This .el can be installed using standard apt-get .
+</li>
+<li>
+The ropemacs related .el files can also be set up using apt-get
+</li>
+<li>
+Add the following statements to .emacs file. Some sites suggest doing a
+lazy load of this modules, so that Emacs startup does not slow
+down. But, with python-mode I couldn't get it work properly.
+
+<p>
+;; ;; ===== Stuff for the pymacs extension ====
+;;
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+</p>
+<p>
+;;
+;; ;; ===== Enable ropemacs =====
+;;
+;; ;; Uncomment these to prevent ropemacs from changing default keybindings
+(setq ropemacs-enable-shortcuts nil)
+(setq ropemacs-local-prefix "C-c C-p")
+(require 'pymacs)
+(pymacs-load "ropemacs" "rope-")
+(setq ropemacs-enable-autoimport t)
+</p>
+
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.2.4" class="outline-4">
+<h4 id="sec-1.2.4"><span class="section-number-4">1.2.4</span> Setting up "anything" </h4>
+<div class="outline-text-4" id="text-1.2.4">
+
+<ul>
+<li>
+These set of files helps with auto-complete.
+</li>
+<li>
+The .el files needed for this to function are anything.el,
+anything-ipython.el and anything-show-completion.el.
+The resources provided below can be used to get the latest links to all
+the .el files listed here.
+
+
+</li>
+</ul>
+
+<p>Other packages I found useful are 'recentf' that helps with opening recently
+open files.
+</p>
+
+<p>
+Helpful resources:
+</p>
+<p>
+My setting closely resembles the suggestions provided in this url:
+<a href="http://pedrokroger.com/2010/07/configuring-emacs-as-a-python-ide-2/">http://pedrokroger.com/2010/07/configuring-emacs-as-a-python-ide-2/</a>
+</p>
+<p>
+For some of the issues I had to resolve I used these resources:
+</p>
+<p>
+<a href="http://edward.oconnor.cx/elisp/">http://edward.oconnor.cx/elisp/</a>
+<a href="http://emacswiki.org/emacs/PythonProgrammingInEmacs">http://emacswiki.org/emacs/PythonProgrammingInEmacs</a>
+<a href="http://lists.ipython.scipy.org/pipermail/ipython-user/2008-September/005791.html">http://lists.ipython.scipy.org/pipermail/ipython-user/2008-September/005791.html</a>
+<a href="http://www.joegrossberg.com/archives/000182.html">http://www.joegrossberg.com/archives/000182.html</a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+</div>
+<div id="postamble">
+<p class="author"> Author: guru
+<a href="mailto:guru@quantworld">&lt;guru@quantworld&gt;</a>
+</p>
+<p class="date"> Date: 2012-05-18 22:12:51 CDT</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
+</div>
+</body>
+</html>
